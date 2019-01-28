@@ -73,7 +73,12 @@
 
         function addEventForDatePickerOnlyMoreDate(selector, dateValue){
             $(selector).datepicker().on('focusout', function () {
-                if ($(selector).val() < dateValue){
+                if ($(selector).val() instanceof Date){
+                    if ($(selector).val().getDate() < dateValue.getDate()){
+                        $(selector).datepicker('update', dateValue);
+                        getMessage("user.msg.wrong-date-datepicker", "warning")
+                    }
+                }else {
                     $(selector).datepicker('update', dateValue);
                     getMessage("user.msg.wrong-date-datepicker", "warning")
                 }
