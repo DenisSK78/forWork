@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="plagins/bootstrap-3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="plagins/bootstrap-3/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="plagins/bootstrap-datepicker-1.6.4-dist/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="plagins/bootstrap-notify/notify-custom.css">
+    <link rel="stylesheet" href="all.css">
+
+    <script src="plagins/jquery/jquery-3.3.1.min.js"></script>
+    <script src="plagins/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="plagins/bootstrap-3/js/bootstrap.min.js"></script>
+    <script src="plagins/bootstrap-datepicker-1.6.4-dist/js/bootstrap-datepicker.js"></script>
+    <script src="plagins/bootstrap-datepicker-1.6.4-dist/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script src="all.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>MSG</h1>
+    <button type="button" onclick="onClick1()">Button</button>
+    <button type="button" onclick="onClick2()">Button</button>
+    <button type="button" onclick="onClick3()">Button</button>
+    <button type="button" onclick="onClick4()">Button</button>
+    <button type="button" onclick="onClick5()">Button</button>
+
+    <br>
+    <br>
+
+    <button type="button" onclick="onClick6()">Button</button>
+    <button type="button" onclick="onClick7()">Button</button>
+    <button type="button" onclick="onClick8()">Button</button>
+    <button type="button" onclick="onClick9()">Button</button>
+    <button type="button" onclick="onClick10()">Button</button>
+</div>
+
+<script>
+    // "user.msg.fill-all-fields"
+
+    function onClick1() {
+        getMessage("user.msg.fill-all-fields", "danger");
+    }
+
+    function onClick2() {
+        getMessage("user.msg.fill-all-fields", "info");
+    }
+
+    function onClick3() {
+        getMessage("user.msg.fill-all-fields", "success");
+    }
+
+    function onClick4() {
+        getMessage("user.msg.fill-all-fields", "warning");
+    }
+
+    function onClick5() {
+        getMessage("error", "Что-то произошло !", "Бяда");
+    }
+
+    function onClick6() {
+        getMessage("user.msg.custom", "danger", "user.msg.title-custom");
+    }
+
+    function onClick7() {
+        getMessage("user.msg.custom", "info", "user.msg.title-custom");
+    }
+
+    function onClick8() {
+        getMessage("user.msg.custom", "success", "user.msg.title-custom");
+    }
+
+    function onClick9() {
+        getMessage("user.msg.custom", "warning", "user.msg.title-custom");
+    }
+
+    function onClick10() {
+        getMessage("", "rrrrr", "user.msg.title-custom");
+    }
+
+    // function getMessage(keyMsg, typeMsg, titleMsg) {
+    //
+    //     // var lang = getCookie("KanclerLocaleCookie");
+    //     var lang = "ru";
+    //     var textMessage;
+    //     var msg = {
+    //         textMsg : "",
+    //         titleMsg : ""
+    //     };
+    //
+    //     if(keyMsg === 'error'){
+    //         textMessage = typeMsg;
+    //         showMessages('danger', titleMsg);
+    //         return;
+    //     }
+    //
+    //     title = titleMsg === null || titleMsg === undefined ? getDefaultTitle() : titleMsg;
+    //
+    //     console.log(title);
+    //
+    //     $.ajax({
+    //         type: 'get',
+    //         url: "http://localhost:8080/ajax/messages?key=" + keyMsg + "&lang=" + lang  + "&title=" + title,
+    //         success: function (data) {
+    //             msg = data;
+    //             textMessage = msg.textMsg;
+    //             showMessages(typeMsg, msg.titleMsg )
+    //         },
+    //         error: function errorResponse() {
+    //             textMessage = 'Не получен ответ от сервера!';
+    //             showMessages('danger','404:');
+    //         }
+    //     });
+    //
+    //     function showMessages( typeMsg, title) {
+    //         $.notify({
+    //             title: title,
+    //             message: textMessage
+    //         }, {
+    //             type: 'pastel-' + typeMsg,
+    //             delay: 3000,
+    //             z_index: 9999,
+    //             template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+    //                 '<span data-notify="title">{1}</span>' +
+    //                 '<span data-notify="message">{2}</span>' +
+    //                 '</div>'
+    //         });
+    //     }
+    //
+    //     function getDefaultTitle() {
+    //         var def;
+    //         switch (typeMsg) {
+    //             case 'success': def = 'user.msg.title.default-success';
+    //                 break;
+    //             case 'info': def = 'user.msg.title.default-info';
+    //                 break;
+    //             case 'warning': def = 'user.msg.title.default-warning';
+    //                 break;
+    //             case 'danger': def = 'user.msg.title.default-danger';
+    //                 break;
+    //         }
+    //         return def;
+    //     }
+    // }
+</script>
+</body>
+</html>
+<script>
+</script>
