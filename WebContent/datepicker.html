@@ -96,7 +96,7 @@
         // console.log(inDate);
         // console.log(datePlusDeys('01.03.2019', 50));
         // console.log(inDate.getTime());
-        // console.log(validDateAndSmallDate($('.second-date'), '10.02.2019'))
+        console.log(validDateAndSmallDate($('.second-date'), '10.02.2019'))
     }
 
     function isdateornot(){
@@ -157,6 +157,7 @@
             return date.search(regexp) >= 0;
         }
 
+        //show error use bootstrap class 'has-error' or need create css with this name
         function showError(selector,time){
             $(selector).addClass("has-error");
             setTimeout(function () {
