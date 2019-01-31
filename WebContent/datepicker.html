@@ -39,6 +39,13 @@
         </div>
     </div>
 
+    <!--<div class="row"></div>-->
+    <input type="hidden" id="input-hidden" value="10.02.2019"/>
+    <button type="button" id="click-button" onclick="showValue()">Click-first</button>
+    <br>
+    <br>
+    <label for="third"></label><input type="text" id="third"/>
+    <button type="button" id="click-button-second" onclick="isdateornot()">Click-second</button>
 </div>
 
 </body>
@@ -50,14 +57,14 @@
 
         $('.first-date').datepicker({
             format: "dd.mm.yyyy",
-            language: "ru",
+            language: "en",
             autoclose: true,
             toggleActive: true,
             todayHighlight: true,
             startDate: fDate
         });
         $('.first-date').datepicker('update', fDate);
-        addEventForDatePickerOnlyMoreDate($('.first-date'), fDate);
+        // addEventForDatePickerOnlyMoreDate($('.first-date'), fDate);
 
 
         $('.second-date').datepicker({
@@ -66,25 +73,98 @@
             autoclose: true,
             toggleActive: true,
             todayHighlight: true,
-            startDate: sDate
+            startDate: sDate,
+            defaultViewDate: {
+                year: parseDate(sDate).getFullYear(),
+                month: parseDate(sDate).getMonth(),
+                day: parseDate(sDate).getDay()
+            }
         });
         $('.second-date').datepicker('update', sDate);
-        addEventForDatePickerOnlyMoreDate($('.second-date'), sDate);
+        // addEventForDatePickerOnlyMoreDate($('.second-date'), sDate);
 
-        function addEventForDatePickerOnlyMoreDate(selector, dateValue){
-            $(selector).datepicker().on('focusout', function () {
-                if ($(selector).val() instanceof Date){
-                    if ($(selector).val().getDate() < dateValue.getDate()){
-                        $(selector).datepicker('update', dateValue);
-                        getMessage("user.msg.wrong-date-datepicker", "warning")
-                    }
-                }else {
-                    $(selector).datepicker('update', dateValue);
-                    getMessage("user.msg.wrong-date-datepicker", "warning")
-                }
-            });
+        function addEventForDatePickerOnlyMoreDate(selector, startDate){
+            if (validDateString($(selector).val())){
+
+            }
+        }
+
+    };
+
+    function showValue(){
+        // var inDate = parseDate($(".second-date").val());
+        // console.log(inDate);
+        // console.log(datePlusDeys('01.03.2019', 50));
+        // console.log(inDate.getTime());
+        // console.log(validDateAndSmallDate($('.second-date'), '10.02.2019'))
+    }
+
+    function isdateornot(){
+        validDateString($('#third').val())
+    }
+
+    //format: dd.mm.yyyy
+    function parseDate(valDateStr) {
+        var date = valDateStr.split('.');
+        var d = parseInt(date[0], 10),
+            m = parseInt(date[1], 10),
+            y = parseInt(date[2], 10);
+        return new Date(y, m - 1, d);
+    }
+
+    //format: dd.mm.yyyy
+    function datePlusDeys(dateStr, days) {
+        var inDate = parseDate(dateStr);
+        return new Date(inDate.getFullYear(),  inDate.getMonth(), inDate.getDate() + days)
+    }
+
+    //format: dd.mm.yyyy
+    // function validDateString(date) {
+    //     var regexp = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[13456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\.02\.((19|[2-9]\d)\d{2}))|(29\.02\.((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+    //     return date.search(regexp) >= 0;
+    // }
+
+
+    //valid date format dd.mm.yyyy
+    function validDateAndSmallDate(selector, startDate){
+
+        // console.log(validDateString('20.03.2019'));
+        // console.log(validDateString('28.02.2019'));
+        // console.log(validDateString('29.02.2020'));
+        // console.log(validDateString('30.04.2019'));
+        // console.log(validDateString('31.04.2019'));
+        // console.log(validDateString('29.02.2019'));
+        // console.log("last two should be false")
+
+        var cD = $(selector).val();
+        if (validDateString(cD)){
+            if (parseDate(cD) >= parseDate(startDate)) {
+                return true;
+            }
+        } else {
+            showError(selector, 4000);
+            getMessage('user.msg.wrong-date-datepicker', 'wrong');
+            return false;
+        }
+
+        function parseDate(valDateStr) {
+            var date = valDateStr.split('.');
+            return new Date(parseInt(date[2], 10) , parseInt(date[1], 10) - 1, parseInt(date[0], 10));
+        }
+
+        function validDateString(date) {
+            var regexp = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[13456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\.02\.((19|[2-9]\d)\d{2}))|(29\.02\.((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+            return date.search(regexp) >= 0;
+        }
+
+        function showError(selector,time){
+            $(selector).addClass("has-error");
+            setTimeout(function () {
+                $(selector).removeClass("has-error");
+                }, time);
         }
     }
+
 </script>
 </html>
 
