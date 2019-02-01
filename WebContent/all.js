@@ -1,4 +1,4 @@
-
+//getMassage notify
 function getMessage(keyMsg, typeMsg, titleMsg) {
 
     // var lang = getCookie("KanclerLocaleCookie");
@@ -31,7 +31,7 @@ function getMessage(keyMsg, typeMsg, titleMsg) {
         }
     });
 
-    function showMessages( typeMsg, title) {
+    function showMessages(typeMsg, title) {
         $.notify({
             title: title,
             message: textMessage
@@ -60,4 +60,67 @@ function getMessage(keyMsg, typeMsg, titleMsg) {
         }
         return def;
     }
+}
+
+//date format: dd.mm.yyyy
+var validatorC = {
+    
+    isDate: function (selector, booleanShowRed, booleanDefaultMsg) {
+        var date = $(selector).val();
+        var show = false;
+        var msg = false;
+        if (booleanShowRed === true) show = true;
+        if (booleanDefaultMsg === true) msg = true;
+        if (validDateString(date)) { return true; }
+        else {
+            if (msg) getMessage('user.msg.wrong-date-datepicker', 'warning');
+            if (show) showValidError(selector, 3000);
+            return false;
+        }
+    },
+
+    isDateAndLessThen: function (selector, datePattern, booleanShowRed, booleanDefaultMsg) {
+        var date = $(selector).val();
+        var show = false;
+        var msg = false;
+        if (booleanShowRed === true) show = true;
+        if (booleanDefaultMsg === true) msg = true;
+
+        if (validDateString(date))
+            if (parseDateValid(date) >= parseDateValid(datePattern))
+                return true;
+            else {
+                showFalse(msg, show);
+                return false;
+            }
+        else {
+            showFalse(msg, show);
+            return false;
+        }
+
+        function showFalse(msg, show) {
+            if (msg) getMessage('user.msg.wrong-date-datepicker', 'warning');
+            if (show) showValidError(selector, 3000);
+        }
+    }
+};
+
+//date format: dd.mm.yyyy
+function validDateString(date) {
+    var regexp = /^(((0[1-9]|[12]\d|3[01])\.(0[13578]|1[02])\.((19|[2-9]\d)\d{2}))|((0[1-9]|[12]\d|30)\.(0[13456789]|1[012])\.((19|[2-9]\d)\d{2}))|((0[1-9]|1\d|2[0-8])\.02\.((19|[2-9]\d)\d{2}))|(29\.02\.((1[6-9]|[2-9]\d)(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))$/;
+    return date.search(regexp) >= 0;
+}
+
+//date format: dd.mm.yyyy
+function parseDateValid(valDateStr) {
+    var date = valDateStr.split('.');
+    return new Date(parseInt(date[2], 10) , parseInt(date[1], 10) - 1, parseInt(date[0], 10));
+}
+
+//show error use bootstrap class 'has-error' or need create css with this name
+function showValidError(selector, time){
+    $(selector).addClass("has-error");
+    setTimeout(function () {
+        $(selector).removeClass("has-error");
+    }, time);
 }

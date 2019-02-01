@@ -44,7 +44,7 @@
     <button type="button" id="click-button" onclick="showValue()">Click-first</button>
     <br>
     <br>
-    <label for="third"></label><input type="text" id="third"/>
+    <label for="third"></label><input type="text" id="third" />
     <button type="button" id="click-button-second" onclick="isdateornot()">Click-second</button>
 </div>
 
@@ -100,7 +100,9 @@
     }
 
     function isdateornot(){
-        validDateString($('#third').val())
+        console.log('validation: ');
+        console.log(validatorC.isDate($('#third'), true, true)  + " <- is date" );
+        console.log('big or equals then pattern date ? : ' + validatorC.isDateAndLessThen($('#third'), '29.02.2020', true, true))
     }
 
     //format: dd.mm.yyyy
@@ -143,7 +145,7 @@
             }
         } else {
             showError(selector, 4000);
-            getMessage('user.msg.wrong-date-datepicker', 'wrong');
+            getMessage('user.msg.wrong-date-datepicker', 'warning');
             return false;
         }
 
