@@ -64,7 +64,13 @@ function getMessage(keyMsg, typeMsg, titleMsg) {
 
 //date format: dd.mm.yyyy
 var validatorC = {
-    
+
+    /**date format: dd.mm.yyyy
+     * @param selector HTML-object (for example: $('#input_id'))
+     * @param {boolean} booleanShowRed if parameter true show red for input
+     * @param {boolean} booleanDefaultMsg if parameter  true show default message (optional)
+     * @return {boolean} false if is not Date
+     */
     isDate: function (selector, booleanShowRed, booleanDefaultMsg) {
         var date = $(selector).val();
         var show = false;
@@ -79,6 +85,14 @@ var validatorC = {
         }
     },
 
+    /**
+     * date format: dd.mm.yyyy
+     * @param selector HTML-object (for example: $('#input_id'))
+     * @param {string} datePattern date for compare date format: 'dd.mm.yyyy'
+     * @param {boolean} booleanShowRed if parameter true show red for input (optional)
+     * @param {boolean} booleanDefaultMsg if parameter  true show default message (optional)
+     * @return {boolean} false if is not Date or less then pattern date
+     */
     isDateAndEqualsOrMoreThen: function (selector, datePattern, booleanShowRed, booleanDefaultMsg) {
         var date = $(selector).val();
         var show = false;
