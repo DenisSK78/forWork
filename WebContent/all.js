@@ -79,7 +79,7 @@ var validatorC = {
         }
     },
 
-    isDateAndLessThen: function (selector, datePattern, booleanShowRed, booleanDefaultMsg) {
+    isDateAndEqualsOrMoreThen: function (selector, datePattern, booleanShowRed, booleanDefaultMsg) {
         var date = $(selector).val();
         var show = false;
         var msg = false;
