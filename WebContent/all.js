@@ -67,8 +67,8 @@ var validatorC = {
     /**
      * date format: 'dd.mm.yyyy'
      * @param selector HTML-object (for example: $('#input_id') (JQuery))
-     * @param {boolean} booleanShowRed if parameter true show red for input (optional)
-     * @param {boolean} booleanDefaultMsg if parameter  true show default message (optional)
+     * @param {boolean} booleanShowRed if parameter true and date is not correct show red for input (optional)
+     * @param {boolean} booleanDefaultMsg if parameter true and date is not correct show default message (optional)
      * @return {boolean} false if is not Date
      */
     isDate: function (selector, booleanShowRed, booleanDefaultMsg) {
@@ -80,7 +80,7 @@ var validatorC = {
         if (validDateString(date)) { return true; }
         else {
             if (msg) getMessage('user.msg.wrong-date-datepicker', 'warning');
-            if (show) showValidError(selector, 3000);
+            if (show) showErrorValid(selector, 3000);
             return false;
         }
     },
@@ -89,8 +89,8 @@ var validatorC = {
      * date format: 'dd.mm.yyyy'
      * @param selector HTML-object (for example: $('#input_id') (JQuery))
      * @param {string} datePattern date for compare date format: 'dd.mm.yyyy'
-     * @param {boolean} booleanShowRed if parameter true show red for input (optional)
-     * @param {boolean} booleanDefaultMsg if parameter  true show default message (optional)
+     * @param {boolean} booleanShowRed if parameter true and date is not correct show red for input (optional)
+     * @param {boolean} booleanDefaultMsg if parameter true and date is not correct show default message (optional)
      * @return {boolean} false if is not Date or less then pattern date
      */
     isDateAndEqualsOrMoreThen: function (selector, datePattern, booleanShowRed, booleanDefaultMsg) {
@@ -114,7 +114,7 @@ var validatorC = {
 
         function showFalse(msg, show) {
             if (msg) getMessage('user.msg.wrong-date-datepicker', 'warning');
-            if (show) showValidError(selector, 3000);
+            if (show) showErrorValid(selector, 3000);
         }
     }
 };
@@ -132,7 +132,7 @@ function parseDateValid(valDateStr) {
 }
 
 //show error use bootstrap class 'has-error' or need create css with this name
-function showValidError(selector, time){
+function showErrorValid(selector, time){
     $(selector).addClass("has-error");
     setTimeout(function () {
         $(selector).removeClass("has-error");
