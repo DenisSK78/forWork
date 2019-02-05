@@ -4,8 +4,22 @@
     margin-bottom: 10px;
 }
 
+/*validation*/
 .has-error {
     border-color: #a94442;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+
+/*spin*/
+.spin{
+    opacity: 0;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
 }

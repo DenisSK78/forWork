@@ -62,6 +62,9 @@ function getMessage(keyMsg, typeMsg, titleMsg) {
     }
 }
 
+
+//--------------------------------------------- validation -------------------------------------------------------------
+
 var validatorC = {
 
     /**
