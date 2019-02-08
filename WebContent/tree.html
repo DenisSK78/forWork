@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="plagins/bootstrap-3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="plagins/bootstrap-3/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="plagins/bootstrap-datepicker-1.6.4-dist/css/bootstrap-datepicker3.min.css">
+    <link rel="stylesheet" href="plagins/bootstrap-notify/notify-custom.css">
+    <link rel="stylesheet" href="plagins/treetable/jquery.treetable.css">
+    <link rel="stylesheet" href="plagins/treetable/jquery.treetable.theme.default.css">
+    <link rel="stylesheet" href="all.css">
+
+    <script src="plagins/jquery/jquery-3.3.1.min.js"></script>
+    <script src="plagins/bootstrap-notify/bootstrap-notify.min.js"></script>
+    <script src="plagins/bootstrap-3/js/bootstrap.min.js"></script>
+    <script src="plagins/bootstrap-datepicker-1.6.4-dist/js/bootstrap-datepicker.js"></script>
+    <script src="plagins/bootstrap-datepicker-1.6.4-dist/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script src="plagins/treetable/jquery.treetable.js"></script>
+    <script src="all.js"></script>
+
+    <title>Tree</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Tree</h2>
+        <table id="organizationsStruct">
+            <thead class="">
+            <tr>
+                <th class="col-md-10">First</th>
+                <th class="col-md-1">Second</th>
+                <th class="col-md-1">Third</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+
+
+<script>
+    var dep = {
+        id: "",
+        parentId: "",
+        name: "",
+        parent: "",
+        number: "",
+    };
+    var arrDep = [dep];
+    var data =[
+        {id: "142", parentId: "null", name: "3-й Департамент", number: 0},
+        {id: "160", parentId: "187", name: "Отделение систем электронного документооборота", number: ""},
+        {id: "162", parentId: "160", name: "РУП Национальный центр электронных услуг", number: ""},
+        {id: "165", parentId: "142", name: "Отделение ИС", number: ""},
+        {id: "175", parentId: "160", name: "Отдел сопровождения", number: ""},
+        {id: "179", parentId: "142", name: "Отделение ИСЭУ", number: ""},
+        {id: "180", parentId: "160", name: "Отдел внедрения", number: ""},
+        {id: "181", parentId: "142", name: "Отделение SAP", number: ""},
+        {id: "182", parentId: "142", name: "Отделение 1С", number: ""},
+        {id: "184", parentId: "142", name: "Подразделение ИМ", number: ""},
+        {id: "185", parentId: "180", name: "test", number: ""},
+        {id: "187", parentId: "null", name: "2-й Департамент", number: 1},
+        {id: "194", parentId: "160", name: "отдел-отделов", number: ""},
+        {id: "198", parentId: "194", name: "второй отдел отделов", number: ""},
+        {id: "199", parentId: "194", name: "первый отдел отделов", number: ""},
+        {id: "200", parentId: "198", name: "отдел второго отдела-отделов", number: ""}
+    ];
+
+    function build() {
+        arrDep  = data;
+        console.log(arrDep);/*delete after ------------------------------------------------------------*/
+        addTree(arrDep);
+
+
+
+
+
+
+
+
+
+        $("#organizationsStruct").treetable({
+            expandable : true
+        });
+    }
+
+    function addTree(arrDep) {
+        for (var i =0; i < arrDep.length; i++ ){
+            $("#organizationsStruct tbody").append(
+                addRow(arrDep[i])
+            )
+        }
+    }
+
+    function addRow(dep) {
+        var trRow = "";
+        if (dep.parentId === "null") {
+            trRow = "<tr data-tt-id=" + dep.id + "><td>" + dep.name + "</td></tr>"
+        } else {
+            trRow = "<tr data-tt-id=" + dep.id + " data-tt-parent-id=" + dep.parentId + "><td>" + dep.name + "</td></tr>"
+        }
+        return trRow;
+    }
+
+    build();
+
+</script>
+</html>
