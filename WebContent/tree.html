@@ -41,70 +41,123 @@
 
 
 <script>
-    var dep = {
-        id: "",
-        parentId: "",
-        name: "",
-        parent: "",
-        number: "",
-    };
-    var arrDep = [dep];
-    var data =[
-        {id: "142", parentId: "null", name: "3-й Департамент", number: 0},
-        {id: "160", parentId: "187", name: "Отделение систем электронного документооборота", number: ""},
-        {id: "162", parentId: "160", name: "РУП Национальный центр электронных услуг", number: ""},
-        {id: "165", parentId: "142", name: "Отделение ИС", number: ""},
-        {id: "175", parentId: "160", name: "Отдел сопровождения", number: ""},
-        {id: "179", parentId: "142", name: "Отделение ИСЭУ", number: ""},
-        {id: "180", parentId: "160", name: "Отдел внедрения", number: ""},
-        {id: "181", parentId: "142", name: "Отделение SAP", number: ""},
-        {id: "182", parentId: "142", name: "Отделение 1С", number: ""},
-        {id: "184", parentId: "142", name: "Подразделение ИМ", number: ""},
-        {id: "185", parentId: "180", name: "test", number: ""},
-        {id: "187", parentId: "null", name: "2-й Департамент", number: 1},
-        {id: "194", parentId: "160", name: "отдел-отделов", number: ""},
-        {id: "198", parentId: "194", name: "второй отдел отделов", number: ""},
-        {id: "199", parentId: "194", name: "первый отдел отделов", number: ""},
-        {id: "200", parentId: "198", name: "отдел второго отдела-отделов", number: ""}
+    var data = [
+        {id: "142", parentId: "null", name: "3-й Департамент"},
+        {id: "160", parentId: "187", name: "Отделение систем электронного документооборота"},
+        {id: "162", parentId: "160", name: "РУП Национальный центр электронных услуг"},
+        {id: "165", parentId: "142", name: "Отделение ИС"},
+        {id: "175", parentId: "160", name: "Отдел сопровождения"},
+        {id: "179", parentId: "142", name: "Отделение ИСЭУ"},
+        {id: "180", parentId: "160", name: "Отдел внедрения"},
+        {id: "181", parentId: "142", name: "Отделение SAP"},
+        {id: "182", parentId: "142", name: "Отделение 1С"},
+        {id: "184", parentId: "142", name: "Подразделение ИМ"},
+        {id: "185", parentId: "180", name: "test"},
+        {id: "187", parentId: "null", name: "2-й Департамент"},
+        {id: "194", parentId: "160", name: "отдел-отделов"},
+        {id: "198", parentId: "194", name: "второй отдел отделов"},
+        {id: "199", parentId: "194", name: "первый отдел отделов"},
+        {id: "200", parentId: "198", name: "отдел второго отдела-отделов"}
     ];
 
-    function build() {
-        arrDep  = data;
-        console.log(arrDep);/*delete after ------------------------------------------------------------*/
-        addTree(arrDep);
+    var users = {
+        dep1: [
+            {name: "Name1 Surname", phone: "+1111111111111", email: "email1@mail.com"},
+            {name: "Name2 Surname", phone: "+2222222222222", email: "email2@mail.com"},
+            {name: "Name3 Surname", phone: "+3333333333333", email: "email3@mail.com"},
+        ],
 
+        dep2: [
+            {name: "Name4 Surname", phone: "+4444444444444", email: "email4@mail.com"},
+            {name: "Name5 Surname", phone: "+5555555555555", email: "email5@mail.com"},
+            {name: "Name6 Surname", phone: "+6666666666666", email: "email6@mail.com"},
+        ],
 
+        dep3: [
+            {name: "Name7 Surname", phone: "+7777777777777", email: "email7@mail.com"},
+            {name: "Name8 Surname", phone: "+8888888888888", email: "email8@mail.com"},
+            {name: "Name9 Surname", phone: "+9999999999999", email: "email9@mail.com"},
+        ],
 
+        dep4: [
+            {name: "Name10 Surname", phone: "+0000000000000", email: "email10@mail.com"},
+            {name: "Name11 Surname", phone: "+1111111222222", email: "email11@mail.com"},
+            {name: "Name12 Surname", phone: "+1111111333333", email: "email12@mail.com"},
+        ]
+    };
 
-
-
-
-
-
-        $("#organizationsStruct").treetable({
-            expandable : true
-        });
-    }
-
-    function addTree(arrDep) {
-        for (var i =0; i < arrDep.length; i++ ){
-            $("#organizationsStruct tbody").append(
-                addRow(arrDep[i])
-            )
+    function buildTree() {
+        var arr = createTree(data);
+        for (var i=0; i < arr.length; i++){
+            var row;
+            arr[i].parentId === "null"?
+                row = "<tr data-tt-id=" + arr[i].id + ">" +
+                    "<td>"+ arr[i].name +"</td>" +
+                    "<td></td>" +
+                    "<td></td>" +
+                    "</tr>" :
+                row = "<tr data-tt-id=" + arr[i].id + " data-tt-parent-id=" + arr[i].parentId + ">" +
+                    "<td>"+ arr[i].name +"</td>" +
+                    "<td></td>" +
+                    "<td></td>" +
+                    "</tr>";
+            $("#treefirst").append(row)
         }
     }
 
-    function addRow(dep) {
-        var trRow = "";
-        if (dep.parentId === "null") {
-            trRow = "<tr data-tt-id=" + dep.id + "><td>" + dep.name + "</td></tr>"
-        } else {
-            trRow = "<tr data-tt-id=" + dep.id + " data-tt-parent-id=" + dep.parentId + "><td>" + dep.name + "</td></tr>"
+    function createTree(arr) {
+        var oA = arr;
+        var nA = [];
+        trueQueue(oA);
+        return nA;
+
+        function trueQueue() {
+            var mPs = getDepsByPId('null');
+            if(mPs.length > 0){
+                for (var i = 0; i < mPs.length; i++){
+                    nA.push(mPs[i]);
+                    addCh(mPs[i].id);
+                }
+            }
         }
-        return trRow;
+
+        function addCh(pId){
+            var arrCh = getDepsByPId(pId);
+            for (var i = 0; i < arrCh.length; i++){
+                if (sCh(arrCh[i].id)){
+                    nA.push(arrCh[i]);
+                    addCh(arrCh[i].id)
+                }else {
+                    // arrCh[i].end = true;
+                    nA.push(arrCh[i]);
+                }
+            }
+        }
+
+        function getDepsByPId(pId) {
+            var b = [];
+            for (var i = 0; i < oA.length; i++){
+                if (oA[i].parentId === pId)
+                    b.push(oA[i]);
+            }
+            return b;
+        }
+
+        function sCh(pId) {
+            for (var i = 0; i < oA.length; i++){
+                if (oA[i].parentId === pId)
+                    return true;
+            }
+            return false;
+        }
     }
 
-    build();
+    buildTree(data);
+
+    $("#treefirst").treetable({
+        expandable: true
+    });
 
 </script>
 </html>
+
