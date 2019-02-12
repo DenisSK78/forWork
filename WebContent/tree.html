@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="plagins/bootstrap-notify/notify-custom.css">
     <link rel="stylesheet" href="plagins/treetable/jquery.treetable.css">
     <link rel="stylesheet" href="plagins/treetable/jquery.treetable.theme.default.css">
+    <link rel="stylesheet" href="plagins/spin/jquery.spin.css">
     <link rel="stylesheet" href="all.css">
 
     <script src="plagins/jquery/jquery-3.3.1.min.js"></script>
@@ -16,6 +17,7 @@
     <script src="plagins/bootstrap-3/js/bootstrap.min.js"></script>
     <script src="plagins/bootstrap-datepicker-1.6.4-dist/js/bootstrap-datepicker.js"></script>
     <script src="plagins/bootstrap-datepicker-1.6.4-dist/locales/bootstrap-datepicker.ru.min.js"></script>
+    <script src="plagins/spin/jquery.spin.js"></script>
     <script src="plagins/treetable/jquery.treetable.js"></script>
     <script src="all.js"></script>
 
@@ -23,17 +25,16 @@
 </head>
 <body>
     <div class="container">
-        <h2>Tree</h2>
-        <table id="organizationsStruct">
-            <thead class="">
+        <h1>Tree</h1>
+        <table id="treefirst">
+            <thead>
             <tr>
-                <th class="col-md-10">First</th>
-                <th class="col-md-1">Second</th>
-                <th class="col-md-1">Third</th>
+                <th>Name department</th>
+                <th>People</th>
+                <th>Delete</th>
             </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
         </table>
     </div>
 </body>
@@ -61,25 +62,25 @@
     ];
 
     var users = {
-        dep1: [
+        dep142: [
             {name: "Name1 Surname", phone: "+1111111111111", email: "email1@mail.com"},
             {name: "Name2 Surname", phone: "+2222222222222", email: "email2@mail.com"},
             {name: "Name3 Surname", phone: "+3333333333333", email: "email3@mail.com"},
         ],
 
-        dep2: [
+        dep165: [
             {name: "Name4 Surname", phone: "+4444444444444", email: "email4@mail.com"},
             {name: "Name5 Surname", phone: "+5555555555555", email: "email5@mail.com"},
             {name: "Name6 Surname", phone: "+6666666666666", email: "email6@mail.com"},
         ],
 
-        dep3: [
+        dep198: [
             {name: "Name7 Surname", phone: "+7777777777777", email: "email7@mail.com"},
             {name: "Name8 Surname", phone: "+8888888888888", email: "email8@mail.com"},
             {name: "Name9 Surname", phone: "+9999999999999", email: "email9@mail.com"},
         ],
 
-        dep4: [
+        dep200: [
             {name: "Name10 Surname", phone: "+0000000000000", email: "email10@mail.com"},
             {name: "Name11 Surname", phone: "+1111111222222", email: "email11@mail.com"},
             {name: "Name12 Surname", phone: "+1111111333333", email: "email12@mail.com"},
@@ -96,8 +97,9 @@
                     "<td></td>" +
                     "<td></td>" +
                     "</tr>" :
-                row = "<tr data-tt-id=" + arr[i].id + " data-tt-parent-id=" + arr[i].parentId + ">" +
-                    "<td>"+ arr[i].name +"</td>" +
+                row = "<tr data-tt-id=" + arr[i].id + " data-tt-parent-id=" + arr[i].parentId +">" +
+                    "<td>" +
+                    arr[i].name +"</td>" +
                     "<td></td>" +
                     "<td></td>" +
                     "</tr>";
@@ -128,7 +130,7 @@
                     nA.push(arrCh[i]);
                     addCh(arrCh[i].id)
                 }else {
-                    // arrCh[i].end = true;
+                    arrCh[i].end = true;
                     nA.push(arrCh[i]);
                 }
             }
@@ -155,8 +157,56 @@
     buildTree(data);
 
     $("#treefirst").treetable({
-        expandable: true
+        expandable: true,
+        onInitialized: function(){
+            $('.leaf').attr('data-tt-branch', 'true')
+        },
+        onNodeExpand:  function () {
+            for (var i = 0; i < this.children.length; i++) {
+                if (/[p][\d]*/.test(this.children[i].id)) {
+                    return true;
+                }
+            }
+            return openNode(this);
+        },
     });
+
+    function  openNode(ob) {
+        var asAjax = returnByID(ob.id);
+        if (asAjax !== -1){
+            var arrTR = getPeopleTRArr(asAjax, ob);
+            for (var i = 0; i < arrTR.length; i++) {
+                $("#treefirst").treetable("loadBranch", ob, arrTR[i].row);
+                $("#treefirst").treetable("collapseNode", arrTR[i].id);
+            }
+        }
+
+        function returnByID(id) {
+            switch (id) {
+                case 142: return users.dep142;
+                case 165: return users.dep165;
+                case 198: return users.dep198;
+                case 200: return users.dep200;
+                default: return -1;
+            }
+        }
+
+        function getPeopleTRArr(arrData) {
+            var trArr = [];
+            for(var i = 0; i< arrData.length; i++){
+                var obj = { row: "", id: ""};
+                obj.id = "p" + i;
+                obj.row = "<tr data-tt-id=" + obj.id + " data-tt-parent-id=" + ob.id + ">" +
+                    "<td>" +
+                    arrData[i].name + "</td>" +
+                    "<td></td>" +
+                    "<td></td>" +
+                    "</tr>";
+                trArr[i] = obj;
+            }
+            return trArr;
+        }
+    }
 
 </script>
 </html>

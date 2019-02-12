@@ -141,3 +141,16 @@ function showErrorValid(selector, time){
         $(selector).removeClass("has-error");
     }, time);
 }
+//------------------------------------------------------------------------------------------------------------------------
+window.onload = function () {
+    $('.spin').spin();
+};
+
+var spin = {
+    start: function(){
+        $('.spin').spin('show');
+    },
+    stop: function () {
+        $('.spin').spin('hide');
+    }
+};
